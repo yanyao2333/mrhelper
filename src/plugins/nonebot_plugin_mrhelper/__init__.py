@@ -279,9 +279,9 @@ async def _(event: Event):
     # 订阅完成后将搜索结果变量设为空
     search_res = ""
     msg = Message(
-        f"api返回消息：{res}\n豆瓣id：{douban_id}\n名字：{douban_name}\n豆瓣评分：{douban_rating}\n") + MessageSegment.image(
+        f"\napi返回消息：{res}\n豆瓣id：{douban_id}\n名字：{douban_name}\n豆瓣评分：{douban_rating}\n") + MessageSegment.image(
         douban_image)
-    await sub_douban.finish(f"\n{msg}", at_sender=True)
+    await sub_douban.finish(msg, at_sender=True)
 
 
 @get_site_overview.handle()

@@ -306,7 +306,7 @@ async def _(event: Event):
 @get_help.handle()
 async def _():
     await get_help.finish(MessageSegment.text(
-        f"\n1. {COMMAND_START}登录[空格]账号[空格]密码\n用途：登录movie robot\n2. {COMMAND_START}搜片[空格]片名\n用途：等同于在网页手动搜索\n3. {COMMAND_START}订阅[空格]数字\n用途：使用mr搜片后用该命令选择相应序号 也可以直接输入豆瓣id订阅\n4. {COMMAND_START}站点数据\n用途：查看当日上传下载等数据\n5. {COMMAND_START}注册[空格]账号[空格]密码\n用途：注册mr账号（可在配置文件中开启“同时注册emby账号”）\n6. {COMMAND_START}搜库[空格]影片名/imdb_id\n用途：查询影片是否入库等相关信息 建议使用imdb_id查询\n‼注意：如果你发指令机器人不回复你 大概率是你忘记先登录了"),
+        f"\n1. {COMMAND_START}登录[空格]账号[空格]密码\n用途：登录movie robot\n2. {COMMAND_START}搜索[空格]片名\n用途：等同于在网页手动搜索\n3. {COMMAND_START}订阅[空格]数字\n用途：使用mr搜片后用该命令选择相应序号 也可以直接输入豆瓣id订阅\n4. {COMMAND_START}今日数据\n用途：查看当日上传下载等数据\n5. {COMMAND_START}注册[空格]账号[空格]密码\n用途：注册mr账号（可在配置文件中开启“同时注册emby账号”）\n6. {COMMAND_START}搜库[空格]影片名/imdb_id\n用途：查询影片是否入库等相关信息 建议使用imdb_id查询\n‼注意：如果你发指令机器人不回复你 大概率是你忘记先登录了"),
         at_sender=True)
 
 

@@ -16,7 +16,6 @@ class CallApi:
         async with httpx.AsyncClient(headers=headers) as client:
             try:
                 res = await client.post(mr_url, json=data, timeout=10.0)
-                logger.error(res)
                 res_json = res.json()
                 if res_json["code"] != 0:
                     reason = res_json["message"]

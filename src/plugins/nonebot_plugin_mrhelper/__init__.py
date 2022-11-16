@@ -82,12 +82,12 @@ else:
     logger.success("成功注册定时任务 查询未读消息条数 运行间隔：1min")
 
 
-@scheduler.scheduled_job("cron", hour="*/5", id="fresh_token")
+@scheduler.scheduled_job("cron", hour="*/10", id="fresh_token")
 async def fresh_token():
     logger.info("开始运行刷新token任务")
     num = db.Count()
     fresh_num = 0
-    if num is None:
+    if num == 0:
         logger.info("一个账号都没有，我刷新什么？！")
         return None
     for key in range(0, num):
@@ -111,7 +111,7 @@ async def fresh_token():
     logger.success(f"已刷新{fresh_num}个token！")
 
 
-logger.success("成功注册定时任务 刷新过期token 运行间隔：5h")
+logger.success("成功注册定时任务 刷新过期token 运行间隔：10h")
 
 logger.debug(scheduler.get_jobs())
 

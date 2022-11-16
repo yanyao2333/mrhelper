@@ -286,10 +286,13 @@ async def _(event: Event):
 
 @get_site_overview.handle()
 async def _(event: Event):
-    logger.info("开始查询站点数据总览！")
+    logger.info("开始查询今日数据！")
     qid = int(event.get_user_id())
-    info = db.Select("qid", qid)
-    token = info[4]
+    if db.Select("admin", 1) is not None:
+        info = db.Select("admin", 1)
+        token = info[4]
+    else:
+        await register.finish("\n没有登录管理员账号 无法查询今日数据！", at_sender=True)
     data = await mr_api.site_data_overview(MR_URL, token)
     if not data:
         await get_site_overview.finish("\n错误！请查看日志定位问题！", at_sender=True)

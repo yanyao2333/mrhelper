@@ -456,7 +456,11 @@ async def build_media_info_msg(media_info):
     except AttributeError and TypeError:
         logger.warning("未获取到该影片下集播出时间 跳过！")
         next_episode_to_air = MessageSegment.text("")
-    imdb_id = MessageSegment.text("imdb_id：" + media_info.imdb_id + "\n")
+    if media_info.imdb_id is None:
+        imdb_id = "未知"
+    else:
+        imdb_id = media_info.imdb_id
+    imdb_id = MessageSegment.text("imdb_id：" + imdb_id + "\n")
     genres = MessageSegment.text("分类：" + media_info.genres + "\n")
     release_date = MessageSegment.text("上映时间：" + media_info.release_date + "\n")
     poster_img = MessageSegment.image(media_info.poster_url, timeout=10.0)

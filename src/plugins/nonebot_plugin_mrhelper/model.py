@@ -12,13 +12,15 @@ class Config(BaseModel, extra=Extra.ignore):
     superusers: Optional[list]
     command_start: Optional[list]
     mrhelper_autoaddfriend: Optional[bool] = True
+    mrhelper_group_whitelist: Optional[list] = None
+    mrhelper_user_whitelist: Optional[list] = None
 
 
 class MediaInfo(BaseModel, extra=Extra.ignore):
     name: str
     type: str
     poster_url: str
-    imdb_id: Optional[str] = "未知"
+    imdb_id: str
     have_chi_subtitle: bool = False
     air_process: Optional[str]  # 我也不知道咋命名了 反正内容就是“x季 有x集/全x集”
     overview: str

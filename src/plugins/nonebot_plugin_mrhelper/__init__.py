@@ -24,7 +24,6 @@ class ConfigError(Exception):
 
 
 require("nonebot_plugin_apscheduler")
-
 plugin_config = Config.parse_obj(get_driver().config.dict())
 AUTOADDFRIEND = plugin_config.mrhelper_autoaddfriend
 SUPERUSERS = plugin_config.superusers
@@ -47,14 +46,35 @@ if ENABLE_REGISTEREMBY:
     else:
         raise ConfigError("你开启了注册emby功能 但是没有配置apikey和url!!!")
 ENABLE_PUSHNOTIFY = plugin_config.mrhelper_enable_pushnotify
+GROUP_WHITELIST = plugin_config.mrhelper_group_whitelist
+USER_WHITELIST = plugin_config.mrhelper_user_whitelist
+
+
+# 注册一个rules用来限制访问权限
+async def allowChecker(event: Event, bot: Bot):
+    if len(USER_WHITELIST[0]) == 0 and len(GROUP_WHITELIST[0]) == 0:
+        return True
+    try:
+        _, gid, qid = event.get_session_id().split("_")
+    except:
+        gid = None
+        qid = event.get_session_id()
+    if gid in GROUP_WHITELIST:
+        return True
+    elif qid in USER_WHITELIST:
+        return True
+    else:
+        return False
+
+
 add_friends = on_request(priority=2)
-login = on_command("登录", priority=15)
-search_keyword = on_command("搜索", priority=15)
-sub_douban = on_command("订阅", priority=15)
+login = on_command("登录", priority=15, rule=allowChecker)
+search_keyword = on_command("搜索", priority=15, rule=allowChecker)
+sub_douban = on_command("订阅", priority=15, rule=allowChecker)
 get_site_overview = on_command("今日数据", priority=20, permission=SUPERUSER)
-register = on_command("注册", priority=15)
-get_help = on_command("帮助", priority=15)
-search_in_library = on_command("搜库", priority=15)
+register = on_command("注册", priority=15, rule=allowChecker)
+get_help = on_command("帮助", priority=15, rule=allowChecker)
+search_in_library = on_command("搜库", priority=15, rule=allowChecker)
 search_res = ""
 db = sqlite.DB(DBPATH)
 mr_api = callapi.CallApi()
@@ -456,11 +476,7 @@ async def build_media_info_msg(media_info):
     except AttributeError and TypeError:
         logger.warning("未获取到该影片下集播出时间 跳过！")
         next_episode_to_air = MessageSegment.text("")
-    if media_info.imdb_id is None:
-        imdb_id = "未知"
-    else:
-        imdb_id = media_info.imdb_id
-    imdb_id = MessageSegment.text("imdb_id：" + imdb_id + "\n")
+    imdb_id = MessageSegment.text("imdb_id：" + media_info.imdb_id + "\n")
     genres = MessageSegment.text("分类：" + media_info.genres + "\n")
     release_date = MessageSegment.text("上映时间：" + media_info.release_date + "\n")
     poster_img = MessageSegment.image(media_info.poster_url, timeout=10.0)

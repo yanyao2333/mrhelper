@@ -52,8 +52,13 @@ USER_WHITELIST = plugin_config.mrhelper_user_whitelist
 
 # 注册一个rules用来限制访问权限
 async def allowChecker(event: Event, bot: Bot):
-    if len(USER_WHITELIST[0]) == 0 and len(GROUP_WHITELIST[0]) == 0:
-        return True
+    try:
+        if USER_WHITELIST is None and GROUP_WHITELIST is None:
+            return True
+        elif len(USER_WHITELIST[0]) == 0 and len(GROUP_WHITELIST[0]) == 0:
+            return True
+    except:
+        logger.warning("出了点问题，应该是配置文件方面的")
     try:
         _, gid, qid = event.get_session_id().split("_")
     except:

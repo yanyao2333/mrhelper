@@ -22,6 +22,7 @@ class MediaInfo(BaseModel, extra=Extra.ignore):
     have_chi_subtitle: bool = False
     air_process: Optional[str]  # 我也不知道咋命名了 反正内容就是“x季 有x集/全x集”
     overview: str
+    next_episode_to_air_date: Optional[str]
     next_episode_to_air_index: Optional[str]
     genres: str
     release_date: str
